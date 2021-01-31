@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body{
+			background-image: url("field.png");
+			background-size: contain;
+			overflow: none !important;
+		}
+
+		@keyframes orbit{
+			from {transform: rotate(0deg) translateX(30px) rotate(1000000deg);}
+			to {transform: rotate(720deg) translateX(30px) rotate(-720deg);}
+		}
+
+		@keyframes orbito{
+			from {transform: rotate(0deg) translateX(30px) rotate(1000000deg);}
+			to {transform: rotate(-720deg) translateX(30px) rotate(720deg);}
+		}
+
+
+		#peg{
+			animation: orbit 3s linear infinite;
+		}
+
+		#next{
+			animation: orbito  4s linear infinite;
+		}
+
+		#imgcont{
+			background-color: red ;
+			height: 100%;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+
+<div id="imgcont">
+	<img src="peg.png" id="peg" style="height: 100px;width: 100px;margin-top: 250px;margin-left: 500px;position: absolute;z-index: 0 !important;">
+
+	<img src="next.png" id="next" style="height: 100px;width: 100px;margin-top: 280px;margin-left: 600px;position: absolute;z-index: 0 !important;">
+</div>
+
+<script type="text/javascript" src="propeller.js"></script>
+
+<script type="text/javascript">
+	window.scrollbars.visible = false
+	var p = new Propeller(document.getElementById('peg'),{
+		angle: 0,
+        speed: 100,
+        inertia: 1,
+        minimalSpeed: 1,
+        minimalAngleChange: 0,
+        step: 0,
+        stepTransitionTime: 0,
+        stepTransitionEasing: 'linear',
+        rotateParentInstantly: false,
+        touchElement: null})
+
+	var q = new Propeller(document.getElementById('next'),{
+		angle: 0,
+        speed: 100,
+        inertia: 1,
+        minimalSpeed: 1,
+        minimalAngleChange: 0,
+        step: 0,
+        stepTransitionTime: 0,
+        stepTransitionEasing: 'linear',
+        rotateParentInstantly: false,
+        touchElement: null})
+
+	let modifier = 20;
+	window.addEventListener('keydown',(event)=>{
+		switch(event.key){
+			case 'ArrowUp':
+				document.getElementById('peg').style.marginTop = parseInt(document.getElementById('peg').style.marginTop) - modifier +"px";
+				break;
+			case 'ArrowDown':
+				document.getElementById('peg').style.marginTop = parseInt(document.getElementById('peg').style.marginTop) + modifier +"px";
+				break;
+			case 'ArrowLeft':
+				document.getElementById('peg').style.marginLeft = parseInt(document.getElementById('peg').style.marginLeft) - modifier +"px";
+				break;
+			case 'ArrowRight':
+				document.getElementById('peg').style.marginLeft = parseInt(document.getElementById('peg').style.marginLeft) + modifier +"px";
+				break;
+
+			case 'w':
+				document.getElementById('next').style.marginTop = parseInt(document.getElementById('next').style.marginTop) - modifier +"px";
+				break;
+			case 's':
+				document.getElementById('next').style.marginTop = parseInt(document.getElementById('next').style.marginTop) + modifier +"px";
+				break;
+			case 'a':
+				document.getElementById('next').style.marginLeft = parseInt(document.getElementById('next').style.marginLeft) - modifier +"px";
+				break;
+			case 'd':
+				document.getElementById('next').style.marginLeft = parseInt(document.getElementById('next').style.marginLeft) + modifier +"px";
+				break;
+		}
+		// console.log("peg"+document.getElementById('peg').style.marginTop+" "+document.getElementById('peg').style.marginLeft)
+		// console.log("next"+document.getElementById('next').style.marginTop+" "+document.getElementById('next').style.marginLeft)
+		// console.log(" 		")
+
+		if(parseInt(document.getElementById('peg').style.marginTop.replace("px",""))<0){
+			document.getElementById('peg').style.marginTop = "-5px";
+		}
+		if(parseInt(document.getElementById('peg').style.marginLeft.replace("px",""))<0){
+			document.getElementById('peg').style.marginLeft = "-5px";
+		}
+		if(parseInt(document.getElementById('peg').style.marginTop.replace("px",""))>=560){
+			document.getElementById('peg').style.marginTop = "560px";
+		}
+		if(parseInt(document.getElementById('peg').style.marginLeft.replace("px",""))>=1235){
+			document.getElementById('peg').style.marginLeft = "1235px";
+		}
+
+
+		if(parseInt(document.getElementById('next').style.marginTop.replace("px",""))<0){
+			document.getElementById('next').style.marginTop = "-5px";
+		}
+		if(parseInt(document.getElementById('next').style.marginLeft.replace("px",""))<0){
+			document.getElementById('next').style.marginLeft = "-5px";
+		}
+		if(parseInt(document.getElementById('next').style.marginTop.replace("px",""))>=560){
+			document.getElementById('next').style.marginTop = "560px";
+		}
+		if(parseInt(document.getElementById('next').style.marginLeft.replace("px",""))>=1235){
+			document.getElementById('next').style.marginLeft = "1235px";
+		}
+
+		let x1 = parseInt(document.getElementById('peg').style.marginLeft.replace("px",""))
+		let y1 = parseInt(document.getElementById('peg').style.marginTop.replace("px",""))
+		let x2 = parseInt(document.getElementById('next').style.marginLeft.replace("px",""))
+		let y2 = parseInt(document.getElementById('next').style.marginTop.replace("px",""))
+
+		let res = Math.sqrt(Math.pow(x1-x2,2)+Math.pow(y1-y2,2))
+
+		if(res == 100)
+		{
+			document.getElementById('next').style.marginTop = parseInt(document.getElementById('next').style.marginTop) - 10 +"px";
+			document.getElementById('peg').style.marginTop = parseInt(document.getElementById('peg').style.marginTop) + 0 +"px";
+
+			p.speed = p.speed - 10;
+			q.speed = q.speed - 10;
+			console.log("p :"+p.speed+" "+"q :"+q.speed)
+		}
+		else if(res>100)
+		{
+
+		}
+		else if(res<100){
+			document.getElementById('next').style.marginTop = parseInt(document.getElementById('next').style.marginTop) + 40 +"px";
+			document.getElementById('peg').style.marginTop = parseInt(document.getElementById('peg').style.marginTop) - 40 +"px";
+			p.speed = p.speed - 10;
+			q.speed = q.speed - 10;
+			console.log("p :"+p.speed+" "+"q :"+q.speed)
+		}
+
+
+	})
+</script>
+</body>
+</html>
