@@ -4,6 +4,6 @@ No specific intensions regarding anything and does not claim any ownership of th
 Controls :
 
 For object one - arrow keys : up,down,left and right
-For oject two - w,s,a and d
+For object two - w,s,a and d
 
 link - https://ashwary-jharbade.github.io/spinmetal.github.io/
